@@ -4,8 +4,6 @@
 *.so
 *.dylib
 
-.idea/
-
 # Test binary, build with `go test -c`
 *.test
 
@@ -16,8 +14,12 @@
 .glide/
 
 #directories
+.idea/
 .vscode/
 vendor/
 
 #executable
 googol
+
+#single files
+.env
