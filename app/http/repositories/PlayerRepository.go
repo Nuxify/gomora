@@ -35,7 +35,7 @@ func (repository *PlayerRepositoryWithCircuitBreaker) GetPlayerByName(name strin
 }
 
 type PlayerRepository struct {
-	interfaces.IDbHandler
+	interfaces.DBHandlerInterface
 }
 
 func (repository *PlayerRepository) GetPlayerByName(name string) (models.PlayerModel, error) {

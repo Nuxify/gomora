@@ -1,6 +1,6 @@
 package interfaces
 
-type IDbHandler interface {
+type DBHandlerInterface interface {
 	Execute(statement string)
 	Query(statement string) (IRow, error)
 }
