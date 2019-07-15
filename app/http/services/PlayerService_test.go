@@ -11,7 +11,7 @@ import (
 
 func TestGetScore(t *testing.T) {
 
-	playerRepository := new(mocks.IPlayerRepository)
+	playerRepository := new(mocks.PlayerRepositoryInterface)
 
 	player1 := models.PlayerModel{}
 	player1.Id = 101

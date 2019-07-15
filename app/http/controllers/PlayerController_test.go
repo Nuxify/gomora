@@ -22,7 +22,7 @@ import (
 func TestPlayerScore(t *testing.T) {
 
 	// create an instance of our test object
-	playerService := new(mocks.IPlayerService)
+	playerService := new(mocks.PlayerServiceInterface)
 
 	// setup expectations
 	playerService.On("GetScores", "Rafael", "Serena").Return("Forty-Fifteen", nil)

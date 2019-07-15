@@ -11,7 +11,7 @@ import (
 )
 
 type PlayerController struct {
-	interfaces.IPlayerService
+	interfaces.PlayerServiceInterface
 }
 
 func (controller *PlayerController) GetPlayerScore(res http.ResponseWriter, req *http.Request) {

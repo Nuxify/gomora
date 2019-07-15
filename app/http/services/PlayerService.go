@@ -5,7 +5,7 @@ import (
 )
 
 type PlayerService struct {
-	interfaces.IPlayerRepository
+	interfaces.PlayerRepositoryInterface
 }
 
 func (service *PlayerService) GetScores(player1Name string, player2Name string) (string, error) {

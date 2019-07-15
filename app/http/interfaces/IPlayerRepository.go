@@ -4,6 +4,6 @@ import (
 	"github.com/kabaluyot/googol/app/http/models"
 )
 
-type IPlayerRepository interface {
+type PlayerRepositoryInterface interface {
 	GetPlayerByName(name string) (models.PlayerModel, error)
 }

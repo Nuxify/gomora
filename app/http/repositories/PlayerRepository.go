@@ -10,7 +10,7 @@ import (
 )
 
 type PlayerRepositoryWithCircuitBreaker struct {
-	PlayerRepository interfaces.IPlayerRepository
+	PlayerRepository interfaces.PlayerRepositoryInterface
 }
 
 func (repository *PlayerRepositoryWithCircuitBreaker) GetPlayerByName(name string) (models.PlayerModel, error) {
