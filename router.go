@@ -6,12 +6,20 @@ import (
 	"github.com/go-chi/chi"
 )
 
+//IChiRouter - chi router interface
 type IChiRouter interface {
 	InitRouter() *chi.Mux
 }
 
+//* create router struct
 type router struct{}
 
+var (
+	m          *router
+	routerOnce sync.Once
+)
+
+//* Initialize router and routes
 func (router *router) InitRouter() *chi.Mux {
 
 	playerController := ServiceContainer().InjectPlayerController()
@@ -22,11 +30,7 @@ func (router *router) InitRouter() *chi.Mux {
 	return r
 }
 
-var (
-	m          *router
-	routerOnce sync.Once
-)
-
+//ChiRouter - export instantiated chi router once
 func ChiRouter() IChiRouter {
 	if m == nil {
 		routerOnce.Do(func() {

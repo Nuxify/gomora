@@ -10,12 +10,19 @@ import (
 	"github.com/kabaluyot/googol/infrastructures"
 )
 
-type IServiceContainer interface {
+//ServiceContainerInterface - contains the interfaces for the service container
+type ServiceContainerInterface interface {
 	InjectPlayerController() controllers.PlayerController
 }
 
 type kernel struct{}
 
+var (
+	k             *kernel
+	containerOnce sync.Once
+)
+
+//region dependency injection
 func (k *kernel) InjectPlayerController() controllers.PlayerController {
 
 	sqlConn, _ := sql.Open("sqlite3", "/var/tmp/tennis.db")
@@ -29,12 +36,10 @@ func (k *kernel) InjectPlayerController() controllers.PlayerController {
 	return playerController
 }
 
-var (
-	k             *kernel
-	containerOnce sync.Once
-)
+//endregion dependency injection
 
-func ServiceContainer() IServiceContainer {
+//ServiceContainer - export instantiated service container once
+func ServiceContainer() ServiceContainerInterface {
 	if k == nil {
 		containerOnce.Do(func() {
 			k = &kernel{}
