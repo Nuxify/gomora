@@ -1,7 +1,7 @@
 package interfaces
 
 import (
-	"github.com/kabaluyot/googol/app/http/models"
+	"github.com/kabaluyot/gomora/app/http/models"
 )
 
 type PlayerRepositoryInterface interface {

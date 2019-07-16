@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/kabaluyot/googol/app/http/interfaces"
+	"github.com/kabaluyot/gomora/app/http/interfaces"
 )
 
 type PlayerService struct {

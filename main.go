@@ -1,5 +1,5 @@
 /*
-	Googol API Framework
+	The Gomora API Framework
 	A minimalist web API framework using the service-go-pattern
 
 	@Author: Karl Anthony B. Baluyot
@@ -15,7 +15,7 @@ import (
 	"os"
 )
 
-//* entry point of the googol framework
+//* entry point of the gomora framework
 func main() {
 
 	//get the API_URL_PORT

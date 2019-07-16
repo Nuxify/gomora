@@ -19,7 +19,7 @@
 vendor/
 
 #executable
-googol
+gomora
 
 #single files
 .env

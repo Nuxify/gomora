@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/kabaluyot/googol/app/http/interfaces"
+	"github.com/kabaluyot/gomora/app/http/interfaces"
 
 	"github.com/go-chi/chi"
-	"github.com/kabaluyot/googol/app/http/viewmodels"
+	"github.com/kabaluyot/gomora/app/http/viewmodels"
 )
 
 type PlayerController struct {

@@ -3,8 +3,8 @@ package services
 import (
 	"testing"
 
-	"github.com/kabaluyot/googol/app/http/interfaces/mocks"
-	"github.com/kabaluyot/googol/app/http/models"
+	"github.com/kabaluyot/gomora/app/http/interfaces/mocks"
+	"github.com/kabaluyot/gomora/app/http/models"
 
 	"github.com/stretchr/testify/assert"
 )

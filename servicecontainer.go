@@ -4,10 +4,10 @@ import (
 	"sync"
 
 	"database/sql"
-	"github.com/kabaluyot/googol/app/http/controllers"
-	"github.com/kabaluyot/googol/app/http/repositories"
-	"github.com/kabaluyot/googol/app/http/services"
-	"github.com/kabaluyot/googol/infrastructures"
+	"github.com/kabaluyot/gomora/app/http/controllers"
+	"github.com/kabaluyot/gomora/app/http/repositories"
+	"github.com/kabaluyot/gomora/app/http/services"
+	"github.com/kabaluyot/gomora/infrastructures"
 )
 
 //ServiceContainerInterface - contains the interfaces for the service container

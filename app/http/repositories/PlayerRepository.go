@@ -2,8 +2,8 @@ package repositories
 
 import (
 	"github.com/afex/hystrix-go/hystrix"
-	"github.com/kabaluyot/googol/app/http/interfaces"
-	"github.com/kabaluyot/googol/app/http/models"
+	"github.com/kabaluyot/gomora/app/http/interfaces"
+	"github.com/kabaluyot/gomora/app/http/models"
 
 	"fmt"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"

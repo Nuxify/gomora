@@ -3,7 +3,7 @@ package infrastructures
 import (
 	"database/sql"
 	"fmt"
-	"github.com/kabaluyot/googol/app/http/interfaces"
+	"github.com/kabaluyot/gomora/app/http/interfaces"
 )
 
 type SQLiteHandler struct {

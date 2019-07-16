@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http/httptest"
 
-	"github.com/kabaluyot/googol/app/http/interfaces/mocks"
-	"github.com/kabaluyot/googol/app/http/viewmodels"
+	"github.com/kabaluyot/gomora/app/http/interfaces/mocks"
+	"github.com/kabaluyot/gomora/app/http/viewmodels"
 
 	"testing"
 
