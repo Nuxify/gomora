@@ -1,4 +1,4 @@
-# The gomora API Framework
+# The Gomora API Framework
 A minimalist web API framework using the service-go-pattern
 
 Currently on early stages :)
