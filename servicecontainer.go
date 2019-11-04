@@ -12,7 +12,7 @@ import (
 
 //ServiceContainerInterface - contains the interfaces for the service container
 type ServiceContainerInterface interface {
-	InjectPlayerController() controllers.PlayerController
+	RegisterPlayerController() controllers.PlayerController
 }
 
 type kernel struct{}
@@ -23,7 +23,7 @@ var (
 )
 
 //region dependency injection
-func (k *kernel) InjectPlayerController() controllers.PlayerController {
+func (k *kernel) RegisterPlayerController() controllers.PlayerController {
 
 	sqlConn, _ := sql.Open("sqlite3", "/var/tmp/tennis.db")
 	sqliteHandler := &infrastructures.SQLiteHandler{}

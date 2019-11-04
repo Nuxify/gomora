@@ -22,7 +22,7 @@ var (
 //Initialize router and routes
 func (router *router) InitRouter() *chi.Mux {
 
-	playerController := ServiceContainer().InjectPlayerController()
+	playerController := ServiceContainer().RegisterPlayerController()
 
 	r := chi.NewRouter()
 	r.HandleFunc("/getScore/{player1}/vs/{player2}", playerController.GetPlayerScore)
