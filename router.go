@@ -11,7 +11,7 @@ type IChiRouter interface {
 	InitRouter() *chi.Mux
 }
 
-//* create router struct
+//create router struct
 type router struct{}
 
 var (
@@ -19,7 +19,7 @@ var (
 	routerOnce sync.Once
 )
 
-//* Initialize router and routes
+//Initialize router and routes
 func (router *router) InitRouter() *chi.Mux {
 
 	playerController := ServiceContainer().InjectPlayerController()

@@ -15,7 +15,7 @@ import (
 	"os"
 )
 
-//* entry point of the gomora framework
+//entry point of the gomora framework
 func main() {
 
 	//get the API_URL_PORT
