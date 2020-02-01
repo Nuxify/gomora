@@ -7,7 +7,7 @@ import (
 	"github.com/kabaluyot/snowflake"
 )
 
-//Generate - generate a new snowflake ID.
+// Generate - generate a new snowflake ID.
 func Generate() (string, error) {
 	// Create a new Node with a Node number of 1
 	intNode, _ := strconv.ParseInt(os.Getenv("SNOWFLAKE_NODE"), 10, 16)

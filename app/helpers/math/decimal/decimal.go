@@ -2,7 +2,7 @@ package decimal
 
 import "gopkg.in/inf.v0"
 
-//AddDecimals - add two decimal inputs with decimal result
+// AddDecimals - add two decimal inputs with decimal result
 func AddDecimals(first, second *inf.Dec) *inf.Dec {
 	d := new(inf.Dec)
 
@@ -10,7 +10,7 @@ func AddDecimals(first, second *inf.Dec) *inf.Dec {
 	return sum
 }
 
-//DivRoundDownDecimals - divide decimals using round down
+// DivRoundDownDecimals - divide decimals using round down
 func DivRoundDownDecimals(first, second *inf.Dec) *inf.Dec {
 	d := new(inf.Dec)
 
@@ -18,7 +18,7 @@ func DivRoundDownDecimals(first, second *inf.Dec) *inf.Dec {
 	return quotient
 }
 
-//MulDecimals - multiple decimals
+// MulDecimals - multiple decimals
 func MulDecimals(first, second *inf.Dec) *inf.Dec {
 	d := new(inf.Dec)
 
@@ -26,7 +26,7 @@ func MulDecimals(first, second *inf.Dec) *inf.Dec {
 	return prod
 }
 
-//SubDecimals - subtract two decimal numbers
+// SubDecimals - subtract two decimal numbers
 func SubDecimals(first, second *inf.Dec) *inf.Dec {
 	d := new(inf.Dec)
 
@@ -34,7 +34,7 @@ func SubDecimals(first, second *inf.Dec) *inf.Dec {
 	return diff
 }
 
-//ToDecimal - converts string to *inf.Dec data tyoe
+// ToDecimal - converts string to *inf.Dec data tyoe
 func ToDecimal(s string) *inf.Dec {
 	d := new(inf.Dec)
 
