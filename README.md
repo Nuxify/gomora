@@ -1,4 +1,4 @@
 # The Gomora API Framework
-A minimalist web API framework using the service-go-pattern
+A minimalist API framework using the service pattern
 
-Currently on early stages :)
+Currently in heavy refactor for v0.1.0
