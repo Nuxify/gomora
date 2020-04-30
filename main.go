@@ -11,23 +11,39 @@ package main
 
 import (
 	"fmt"
-	_ "github.com/joho/godotenv/autoload"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
+	"runtime"
+
+	"github.com/joho/godotenv"
 )
 
-// entry point of the gomora framework
+var (
+	_, b, _, _ = runtime.Caller(0)
+	basepath   = filepath.Dir(b)
+)
+
+func init() {
+	err := godotenv.Load(fmt.Sprintf("%s/.env", basepath))
+	if err != nil {
+		panic(err)
+	}
+}
+
 func main() {
-	// get the API_URL_PORT
 	port := os.Getenv("API_URL_PORT")
 	if len(port) == 0 {
-		port = "8000" // default port 8000
+		port = "8000" // default port is 8000 if not set
 	}
 
-	// listen for requests and serve
+	// run listeners concurrently here:
+
+	// run http server
+	log.Println("[SERVER] Listen and Serve: localhost:", port)
 	err := http.ListenAndServe(fmt.Sprintf(":%s", port), ChiRouter().InitRouter())
 	if err != nil {
-		log.Println("Listen and Serve:", err)
+		log.Println("Error:", err)
 	}
 }
