@@ -7,7 +7,7 @@ import (
 	"github.com/kabaluyot/gomora/app/http/controllers"
 	"github.com/kabaluyot/gomora/app/http/repositories"
 	"github.com/kabaluyot/gomora/app/http/services"
-	"github.com/kabaluyot/gomora/infrastructures/databases/sqlite"
+	"github.com/kabaluyot/gomora/infrastructures/database/sqlite"
 )
 
 //ServiceContainerInterface - contains the interfaces for the service container

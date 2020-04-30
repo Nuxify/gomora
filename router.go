@@ -6,8 +6,8 @@ import (
 	"github.com/go-chi/chi"
 )
 
-//IChiRouter - chi router interface
-type IChiRouter interface {
+//ChiRouterInterface - chi router interface
+type ChiRouterInterface interface {
 	InitRouter() *chi.Mux
 }
 
@@ -31,7 +31,7 @@ func (router *router) InitRouter() *chi.Mux {
 }
 
 //ChiRouter - export instantiated chi router once
-func ChiRouter() IChiRouter {
+func ChiRouter() ChiRouterInterface {
 	if m == nil {
 		routerOnce.Do(func() {
 			m = &router{}
