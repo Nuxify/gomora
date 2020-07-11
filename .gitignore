@@ -18,8 +18,9 @@
 .vscode/
 vendor/
 
-#executable
-gomora
-
 #single files
 .env
+
+#executable files
+bin
+update_service.sh
