@@ -1,6 +1,10 @@
 # Gomora
 A minimalist framework-agnostic API template following CLEAN architecture and SOLID principles
 
+## Introduction
+
+Gomora provides the example for a module-based gRPC and REST server suitable for scaling microservices.
+ More of the documentation will come in the coming days.
 ## Local Development
 
 Setup the .env file first
