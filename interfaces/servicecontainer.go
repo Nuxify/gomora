@@ -19,16 +19,22 @@ import (
 	tenantRepository "gomora/module/tenant/infrastructure/repository"
 	tenantService "gomora/module/tenant/infrastructure/service"
 	tenantGRPC "gomora/module/tenant/interfaces/http/grpc"
+	tenantREST "gomora/module/tenant/interfaces/http/rest"
 )
 
 // ServiceContainerInterface contains the dependency injected instances
 type ServiceContainerInterface interface {
+	// gRPC
 	RegisterTenantGRPCQueryController() tenantGRPC.TenantQueryController
+
+	// REST
+	RegisterTenantRESTQueryController() tenantREST.TenantQueryController
 }
 
 type kernel struct{}
 
 var (
+	m              sync.Mutex
 	k              *kernel
 	containerOnce  sync.Once
 	mysqlDBHandler *mysql.MySQLDBHandler
@@ -37,6 +43,32 @@ var (
 //================================= gRPC ===================================
 // RegisterTenantGRPCQueryController performs dependency injection to the RegisterTenantGRPCQueryController
 func (k *kernel) RegisterTenantGRPCQueryController() tenantGRPC.TenantQueryController {
+	service := k.tenantQueryServiceContainer()
+
+	controller := tenantGRPC.TenantQueryController{
+		TenantQueryServiceInterface: service,
+	}
+
+	return controller
+}
+
+//==========================================================================
+
+//================================= REST ===================================
+// RegisterTenantRESTQueryController performs dependency injection to the RegisterTenantRESTQueryController
+func (k *kernel) RegisterTenantRESTQueryController() tenantREST.TenantQueryController {
+	service := k.tenantQueryServiceContainer()
+
+	controller := tenantREST.TenantQueryController{
+		TenantQueryServiceInterface: service,
+	}
+
+	return controller
+}
+
+//==========================================================================
+
+func (k *kernel) tenantQueryServiceContainer() *tenantService.TenantQueryService {
 	repository := &tenantRepository.TenantQueryRepository{
 		MySQLDBHandlerInterface: mysqlDBHandler,
 	}
@@ -47,14 +79,8 @@ func (k *kernel) RegisterTenantGRPCQueryController() tenantGRPC.TenantQueryContr
 		},
 	}
 
-	controller := tenantGRPC.TenantQueryController{
-		TenantQueryServiceInterface: service,
-	}
-
-	return controller
+	return service
 }
-
-//==========================================================================
 
 func registerHandlers() {
 	// create new mysql database connection
@@ -67,6 +93,9 @@ func registerHandlers() {
 
 // ServiceContainer export instantiated service container once
 func ServiceContainer() ServiceContainerInterface {
+	m.Lock()
+	defer m.Unlock()
+
 	if k == nil {
 		containerOnce.Do(func() {
 			// register container handlers
