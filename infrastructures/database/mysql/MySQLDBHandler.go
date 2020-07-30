@@ -53,6 +53,7 @@ func (h *MySQLDBHandler) Query(qstmt string, model interface{}, bindModel interf
 	if err != nil {
 		return err
 	}
+	defer nstmt.Close()
 
 	err = nstmt.Select(bindModel, model)
 
