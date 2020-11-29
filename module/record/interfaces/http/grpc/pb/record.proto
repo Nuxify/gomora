@@ -1,0 +1,26 @@
+syntax = "proto3";
+package record;
+
+import "google/protobuf/timestamp.proto";
+
+message CreateRecordRequest {
+    string id = 1;
+    string data = 2;
+}
+
+message GetRecordRequest {
+    string id = 1;
+}
+
+message RecordResponse {
+    string id = 1;
+    string data = 2;
+    google.protobuf.Timestamp createdAt = 3;
+}
+
+service RecordCommandService {
+    rpc CreateRecord (CreateRecordRequest) returns (RecordResponse) {};
+}
+service RecordQueryService {
+    rpc GetRecordByID (GetRecordRequest) returns (RecordResponse) {};
+}

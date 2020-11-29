@@ -8,22 +8,24 @@ import (
 
 	"gomora/interfaces/http/rest/viewmodels"
 	"gomora/internal/errors"
-	"gomora/module/tenant/application"
+	"gomora/module/record/application"
+	types "gomora/module/record/interfaces/http"
 )
 
-type TenantQueryController struct {
-	application.TenantQueryServiceInterface
+// RecordQueryController request controller for record query
+type RecordQueryController struct {
+	application.RecordQueryServiceInterface
 }
 
-// GetTenantByID retrieves the tenant id from the rest request
-func (controller *TenantQueryController) GetTenantByID(w http.ResponseWriter, r *http.Request) {
-	tenantID := chi.URLParam(r, "id")
+// GetRecordByID retrieves the tenant id from the rest request
+func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r *http.Request) {
+	recordID := chi.URLParam(r, "id")
 
-	if len(tenantID) == 0 {
+	if len(recordID) == 0 {
 		response := viewmodels.HTTPResponseVM{
 			Status:    http.StatusUnprocessableEntity,
 			Success:   false,
-			Message:   "Invalid tenant ID",
+			Message:   "Invalid record ID",
 			ErrorCode: errors.InvalidRequestPayload,
 		}
 
@@ -31,7 +33,7 @@ func (controller *TenantQueryController) GetTenantByID(w http.ResponseWriter, r 
 		return
 	}
 
-	res, err := controller.TenantQueryServiceInterface.GetTenantByID(context.TODO(), tenantID)
+	res, err := controller.RecordQueryServiceInterface.GetRecordByID(context.TODO(), recordID)
 	if err != nil {
 		var httpCode int
 		var errorMsg string
@@ -39,10 +41,10 @@ func (controller *TenantQueryController) GetTenantByID(w http.ResponseWriter, r 
 		switch err.Error() {
 		case errors.DatabaseError:
 			httpCode = http.StatusInternalServerError
-			errorMsg = "Encountered persistence problem."
+			errorMsg = "Error while fetching record."
 		case errors.MissingRecord:
 			httpCode = http.StatusNotFound
-			errorMsg = "No records found."
+			errorMsg = "No record found."
 		default:
 			httpCode = http.StatusUnprocessableEntity
 			errorMsg = "Please contact technical support."
@@ -62,10 +64,13 @@ func (controller *TenantQueryController) GetTenantByID(w http.ResponseWriter, r 
 	response := viewmodels.HTTPResponseVM{
 		Status:  http.StatusOK,
 		Success: true,
-		Message: "Tenant successfully fetched.",
-		Data:    res,
+		Message: "Record successfully fetched.",
+		Data: &types.RecordResponse{
+			ID:        res.ID,
+			Data:      res.Data,
+			CreatedAt: res.CreatedAt.Unix(),
+		},
 	}
 
 	response.JSON(w)
-	return
 }
