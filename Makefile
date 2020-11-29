@@ -43,10 +43,6 @@ test:
 run:	build
 	./bin/gomora
 
-.PHONY:	run-windows
-run-windows:	build
-	./bin/gomora.exe
-
 .PHONY:	build-docker
 build-docker:
 	docker build ${DOCKER_BUILD_ARGS} -t ${IMAGE_NAME}:${VERSION} -t ${IMAGE_NAME}:latest .
