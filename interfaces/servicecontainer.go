@@ -16,19 +16,21 @@ import (
 
 	"gomora/infrastructures/database/mysql"
 
-	tenantRepository "gomora/module/tenant/infrastructure/repository"
-	tenantService "gomora/module/tenant/infrastructure/service"
-	tenantGRPC "gomora/module/tenant/interfaces/http/grpc"
-	tenantREST "gomora/module/tenant/interfaces/http/rest"
+	recordRepository "gomora/module/record/infrastructure/repository"
+	recordService "gomora/module/record/infrastructure/service"
+	recordGRPC "gomora/module/record/interfaces/http/grpc"
+	recordREST "gomora/module/record/interfaces/http/rest"
 )
 
 // ServiceContainerInterface contains the dependency injected instances
 type ServiceContainerInterface interface {
 	// gRPC
-	RegisterTenantGRPCQueryController() tenantGRPC.TenantQueryController
+	RegisterRecordGRPCCommandController() recordGRPC.RecordCommandController
+	RegisterRecordGRPCQueryController() recordGRPC.RecordQueryController
 
 	// REST
-	RegisterTenantRESTQueryController() tenantREST.TenantQueryController
+	RegisterRecordRESTCommandController() recordREST.RecordCommandController
+	RegisterRecordRESTQueryController() recordREST.RecordQueryController
 }
 
 type kernel struct{}
@@ -41,12 +43,23 @@ var (
 )
 
 //================================= gRPC ===================================
-// RegisterTenantGRPCQueryController performs dependency injection to the RegisterTenantGRPCQueryController
-func (k *kernel) RegisterTenantGRPCQueryController() tenantGRPC.TenantQueryController {
-	service := k.tenantQueryServiceContainer()
+// RegisterRecordGRPCCommandController performs dependency injection to the RegisterRecordGRPCCommandController
+func (k *kernel) RegisterRecordGRPCCommandController() recordGRPC.RecordCommandController {
+	service := k.recordCommandServiceContainer()
 
-	controller := tenantGRPC.TenantQueryController{
-		TenantQueryServiceInterface: service,
+	controller := recordGRPC.RecordCommandController{
+		RecordCommandServiceInterface: service,
+	}
+
+	return controller
+}
+
+// RegisterRecordGRPCQueryController performs dependency injection to the RegisterRecordGRPCQueryController
+func (k *kernel) RegisterRecordGRPCQueryController() recordGRPC.RecordQueryController {
+	service := k.recordQueryServiceContainer()
+
+	controller := recordGRPC.RecordQueryController{
+		RecordQueryServiceInterface: service,
 	}
 
 	return controller
@@ -55,12 +68,23 @@ func (k *kernel) RegisterTenantGRPCQueryController() tenantGRPC.TenantQueryContr
 //==========================================================================
 
 //================================= REST ===================================
-// RegisterTenantRESTQueryController performs dependency injection to the RegisterTenantRESTQueryController
-func (k *kernel) RegisterTenantRESTQueryController() tenantREST.TenantQueryController {
-	service := k.tenantQueryServiceContainer()
+// RegisterRecordRESTCommandController performs dependency injection to the RegisterRecordRESTCommandController
+func (k *kernel) RegisterRecordRESTCommandController() recordREST.RecordCommandController {
+	service := k.recordCommandServiceContainer()
 
-	controller := tenantREST.TenantQueryController{
-		TenantQueryServiceInterface: service,
+	controller := recordREST.RecordCommandController{
+		RecordCommandServiceInterface: service,
+	}
+
+	return controller
+}
+
+// RegisterRecordRESTQueryController performs dependency injection to the RegisterRecordRESTQueryController
+func (k *kernel) RegisterRecordRESTQueryController() recordREST.RecordQueryController {
+	service := k.recordQueryServiceContainer()
+
+	controller := recordREST.RecordQueryController{
+		RecordQueryServiceInterface: service,
 	}
 
 	return controller
@@ -68,14 +92,28 @@ func (k *kernel) RegisterTenantRESTQueryController() tenantREST.TenantQueryContr
 
 //==========================================================================
 
-func (k *kernel) tenantQueryServiceContainer() *tenantService.TenantQueryService {
-	repository := &tenantRepository.TenantQueryRepository{
+func (k *kernel) recordCommandServiceContainer() *recordService.RecordCommandService {
+	repository := &recordRepository.RecordCommandRepository{
 		MySQLDBHandlerInterface: mysqlDBHandler,
 	}
 
-	service := &tenantService.TenantQueryService{
-		TenantQueryRepositoryInterface: &tenantRepository.TenantQueryRepositoryCircuitBreaker{
-			TenantQueryRepositoryInterface: repository,
+	service := &recordService.RecordCommandService{
+		RecordCommandRepositoryInterface: &recordRepository.RecordCommandRepositoryCircuitBreaker{
+			RecordCommandRepositoryInterface: repository,
+		},
+	}
+
+	return service
+}
+
+func (k *kernel) recordQueryServiceContainer() *recordService.RecordQueryService {
+	repository := &recordRepository.RecordQueryRepository{
+		MySQLDBHandlerInterface: mysqlDBHandler,
+	}
+
+	service := &recordService.RecordQueryService{
+		RecordQueryRepositoryInterface: &recordRepository.RecordQueryRepositoryCircuitBreaker{
+			RecordQueryRepositoryInterface: repository,
 		},
 	}
 

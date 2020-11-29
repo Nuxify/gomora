@@ -52,5 +52,4 @@ func main() {
 
 	// serve grpc server
 	grpc.GRPCServer().Serve(grpcPort)
-
 }

@@ -3,6 +3,8 @@ package errors
 const (
 	// DatabaseError is the code for any database changes errors
 	DatabaseError string = "DATABASE_ERROR"
+	// DuplicateRecord is the code for duplicate records
+	DuplicateRecord string = "DUPLICATE_RECORD"
 	// HystrixTimeout is the code for hystrix timeouts
 	HystrixTimeout string = "HYSTRIX_TIMEOUT"
 	// InvalidRequestPayload is the code for binding errors

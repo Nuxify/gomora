@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 
 	"gomora/interfaces"
-	tenantGRPCPB "gomora/module/tenant/interfaces/http/grpc/pb"
+	recordGRPCPB "gomora/module/record/interfaces/http/grpc/pb"
 )
 
 // GRPCServerInterface holds the implementable method for the grpc server interface
@@ -34,8 +34,11 @@ func (s *server) Serve(port int) {
 	// create grpc server
 	grpcServer := grpc.NewServer()
 
-	tenantServer := interfaces.ServiceContainer().RegisterTenantGRPCQueryController()
-	tenantGRPCPB.RegisterTenantServiceServer(grpcServer, &tenantServer)
+	recordCommandServer := interfaces.ServiceContainer().RegisterRecordGRPCCommandController()
+	recordQueryServer := interfaces.ServiceContainer().RegisterRecordGRPCQueryController()
+
+	recordGRPCPB.RegisterRecordCommandServiceServer(grpcServer, &recordCommandServer)
+	recordGRPCPB.RegisterRecordQueryServiceServer(grpcServer, &recordQueryServer)
 
 	log.Printf("[SERVER] gRPC server running on :%d", port)
 	if err := grpcServer.Serve(lis); err != nil {

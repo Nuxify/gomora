@@ -43,6 +43,10 @@ test:
 run:	build
 	./bin/gomora
 
+.PHONY:	run-windows
+run-windows:	build
+	./bin/gomora.exe
+
 .PHONY:	build-docker
 build-docker:
 	docker build ${DOCKER_BUILD_ARGS} -t ${IMAGE_NAME}:${VERSION} -t ${IMAGE_NAME}:latest .
@@ -50,3 +54,6 @@ build-docker:
 .PHONY: up
 up:
 	docker run -p ${HOST_PORT}:${DOCKER_PORT} -p ${MYSQL_HOST_PORT}:${MYSQL_DOCKER_PORT} ${IMAGE_NAME}:${VERSION}
+
+proto-record:
+	protoc --go_out=plugins=grpc:. --go_opt=paths=source_relative module/record/interfaces/http/grpc/pb/record.proto
