@@ -73,5 +73,4 @@ func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r 
 	}
 
 	response.JSON(w)
-	return
 }
