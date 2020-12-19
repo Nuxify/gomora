@@ -1,0 +1,4 @@
+vendor
+bin
+Dockerfile
+.dockerignore
