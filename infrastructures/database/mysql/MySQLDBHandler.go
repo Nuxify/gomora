@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	// mysql import handler
 	_ "github.com/go-sql-driver/mysql"
@@ -21,6 +22,7 @@ func (h *MySQLDBHandler) Connect(host, port, database, username, password string
 		return err
 	}
 
+	conn.SetConnMaxLifetime(time.Minute * 4)
 	h.Conn = conn
 
 	err = conn.Ping()
