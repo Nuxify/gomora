@@ -17,7 +17,7 @@ type MySQLDBHandler struct {
 
 // Connect opens a new connection to the mysql interface
 func (h *MySQLDBHandler) Connect(host, port, database, username, password string) error {
-	conn, err := sqlx.Connect("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", username, password, host, port, database))
+	conn, err := sqlx.Connect("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&sql_mode=TRADITIONAL", username, password, host, port, database))
 	if err != nil {
 		return err
 	}
