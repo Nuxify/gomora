@@ -4,6 +4,7 @@ services:
   gomora:
     build: .
     container_name: gomora
+    mem_limit: “3g”
     restart: unless-stopped
     logging:
       driver: "json-file"
