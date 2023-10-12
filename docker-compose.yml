@@ -15,9 +15,6 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./storage/images:/app/build/storage/images
-      - ./storage/metadata:/app/build/storage/metadata
-      - ./storage/nft-mint-upload.log:/app/build/storage/nft-mint-upload.log
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gomora.entrypoints=http"
