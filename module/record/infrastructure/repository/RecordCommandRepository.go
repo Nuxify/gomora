@@ -3,7 +3,8 @@ package repository
 import (
 	"errors"
 	"fmt"
-	"strings"
+
+	"github.com/go-sql-driver/mysql"
 
 	"gomora/infrastructures/database/mysql/types"
 	apiError "gomora/internal/errors"
@@ -26,7 +27,8 @@ func (repository *RecordCommandRepository) InsertRecord(data repositoryTypes.Cre
 	stmt := fmt.Sprintf("INSERT INTO %s (id, data) VALUES (:id, :data)", record.GetModelName())
 	_, err := repository.MySQLDBHandlerInterface.Execute(stmt, record)
 	if err != nil {
-		if strings.Contains(err.Error(), "Duplicate entry") {
+		var mysqlErr *mysql.MySQLError
+		if errors.As(err, &mysqlErr) && mysqlErr.Number == 1062 {
 			return entity.Record{}, errors.New(apiError.DuplicateRecord)
 		}
 		return entity.Record{}, errors.New(apiError.DatabaseError)
