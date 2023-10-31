@@ -8,4 +8,5 @@ import (
 type MySQLDBHandlerInterface interface {
 	Execute(stmt string, model interface{}) (sql.Result, error)
 	Query(qstmt string, model interface{}, bindModel interface{}) error
+	QueryRow(qstmt string, model interface{}, bindModel interface{}) error
 }

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
 
@@ -17,17 +18,18 @@ type RecordQueryRepository struct {
 // SelectRecordByID select a record by id
 func (repository *RecordQueryRepository) SelectRecordByID(ID string) (entity.Record, error) {
 	var record entity.Record
-	var records []entity.Record
 
 	stmt := fmt.Sprintf("SELECT * FROM %s WHERE id=:id", record.GetModelName())
-	err := repository.Query(stmt, map[string]interface{}{
+	err := repository.QueryRow(stmt, map[string]interface{}{
 		"id": ID,
-	}, &records)
+	}, &record)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return record, errors.New(apiError.MissingRecord)
+		}
+
 		return record, errors.New(apiError.DatabaseError)
-	} else if len(records) == 0 {
-		return record, errors.New(apiError.MissingRecord)
 	}
 
-	return records[0], nil
+	return record, nil
 }

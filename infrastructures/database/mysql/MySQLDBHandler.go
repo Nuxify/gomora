@@ -58,6 +58,18 @@ func (h *MySQLDBHandler) Query(qstmt string, model interface{}, bindModel interf
 	defer nstmt.Close()
 
 	err = nstmt.Select(bindModel, model)
+	return err
+}
 
+// QueryRow selects a row given by the sql statement
+// It requires the statement, the model to bind the statement, and the target bind model for the result
+func (h *MySQLDBHandler) QueryRow(qstmt string, model interface{}, bindModel interface{}) error {
+	nstmt, err := h.Conn.PrepareNamed(qstmt)
+	if err != nil {
+		return err
+	}
+	defer nstmt.Close()
+
+	err = nstmt.Get(bindModel, model)
 	return err
 }
