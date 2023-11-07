@@ -25,7 +25,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		response := viewmodels.HTTPResponseVM{
-			Status:    http.StatusUnprocessableEntity,
+			Status:    http.StatusBadRequest,
 			Success:   false,
 			Message:   "Invalid payload sent.",
 			ErrorCode: apiError.InvalidPayload,
@@ -38,9 +38,10 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 	// verify content must not empty
 	if len(request.Data) == 0 {
 		response := viewmodels.HTTPResponseVM{
-			Status:  http.StatusUnprocessableEntity,
-			Success: false,
-			Message: "Data input cannot be empty.",
+			Status:    http.StatusBadRequest,
+			Success:   false,
+			Message:   "Data input cannot be empty.",
+			ErrorCode: apiError.InvalidPayload,
 		}
 
 		response.JSON(w)
@@ -65,7 +66,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 			httpCode = http.StatusConflict
 			errorMsg = "Record ID already exist."
 		default:
-			httpCode = http.StatusUnprocessableEntity
+			httpCode = http.StatusInternalServerError
 			errorMsg = "Please contact technical support."
 		}
 

@@ -23,7 +23,7 @@ func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r 
 
 	if len(recordID) == 0 {
 		response := viewmodels.HTTPResponseVM{
-			Status:    http.StatusUnprocessableEntity,
+			Status:    http.StatusBadRequest,
 			Success:   false,
 			Message:   "Invalid record ID",
 			ErrorCode: errors.InvalidRequestPayload,
@@ -46,7 +46,7 @@ func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r 
 			httpCode = http.StatusNotFound
 			errorMsg = "No record found."
 		default:
-			httpCode = http.StatusUnprocessableEntity
+			httpCode = http.StatusInternalServerError
 			errorMsg = "Please contact technical support."
 		}
 
