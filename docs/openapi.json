@@ -68,7 +68,7 @@
                  "record"
                ],
                "summary": "Get Record By ID",
-               "description": "Get record by its recordID",
+               "description": "Get record by its id",
                "parameters": [
                 {
                   "name": "id",
