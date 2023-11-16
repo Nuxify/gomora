@@ -1,0 +1,118 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+       "title": "Gomora API",
+       "description": "A progressive framework-agnostic API template following CLEAN architecture and SOLID principles. DDD inspired :)",
+       "termsOfService": "https://github.com/Nuxify/gomora",
+       "contact": {
+          "name": "Gomora API Developer",
+          "email": "hello@nuxify.tech"
+       },
+       "version": "1.0.0"
+    },
+    "servers": [
+       {
+          "url": "https://gomora-api.nuxify.tech",
+          "description": "Production"
+       },
+       {
+          "url": "https://staging-gomora-api.nuxify.tech",
+          "description": "Staging"
+       },
+       {
+          "url": "http://localhost:8000",
+          "description": "Local"
+       }
+    ],
+    "tags": [
+       {
+          "name": "record",
+          "description": "Record service"
+       }
+    ],
+    "paths": {
+          "/api/v1/record/": {
+            "post": {
+              "tags": [
+                "record"
+              ],
+              "summary": "Create Record",
+              "description": "Creates a record",
+              "requestBody": {
+                "description": "Creates a record request",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/CreateRecordRequest"
+                    }
+                  }
+                },
+                "required": true
+              },
+              "responses": {
+                "2xx": {
+                  "description": "Success"
+                },
+                "4xx": {
+                  "description": "Client side errors"
+                },
+                "5xx": {
+                  "description": "Server side errors"
+                }
+              }
+            }
+          },
+          "/api/v1/record/{id}": {
+             "get": {
+               "tags": [
+                 "record"
+               ],
+               "summary": "Get Record By ID",
+               "description": "Get record by its recordID",
+               "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "Record id",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+               "responses": {
+                 "2xx": {
+                   "description": "Success"
+                 },
+                 "4xx": {
+                   "description": "Client side errors"
+                 },
+                 "5xx": {
+                   "description": "Server side errors"
+                 }
+               }
+             }
+           }
+    },
+    "components": {
+       "schemas": {
+          "CreateRecordRequest": {
+             "required": [
+               "id",
+               "data"
+             ],
+             "type": "object",
+             "properties": {
+               "id": {
+                 "type": "string"
+               },
+               "data": {
+                 "type": "string"
+               }
+             }
+           }
+ 
+       }
+    }
+ }
+ 
