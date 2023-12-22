@@ -21,47 +21,47 @@ type RecordCommandController struct {
 	application.RecordCommandServiceInterface
 }
 
-var (
-	validate         *validator.Validate
-	validationErrors map[string]string = map[string]string{
-		"CreateRecordRequest.ID":   "ID is required.",
-		"CreateRecordRequest.Data": "Data is required",
-	}
-)
-
 // CreateRecord request handler to create record
 func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r *http.Request) {
 	var request types.CreateRecordRequest
-
-	validate = validator.New(validator.WithRequiredStructEnabled())
 
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
 		response := viewmodels.HTTPResponseVM{
 			Status:    http.StatusBadRequest,
 			Success:   false,
-			Message:   "Invalid payload sent.",
-			ErrorCode: apiError.InvalidPayload,
+			Message:   "Invalid payload request.",
+			ErrorCode: apiError.InvalidRequestPayload,
 		}
 
 		response.JSON(w)
 		return
 	}
 
-	// returns nil or ValidationErrors ( []FieldError )
-	err := validate.Struct(request)
+	// validate request
+	err := types.Validate.Struct(request)
 	if err != nil {
 		errors := err.(validator.ValidationErrors)
 		if len(errors) > 0 {
 			response := viewmodels.HTTPResponseVM{
 				Status:    http.StatusBadRequest,
 				Success:   false,
-				Message:   validationErrors[errors[0].StructNamespace()],
+				Message:   types.ValidationErrors[errors[0].StructNamespace()],
 				ErrorCode: apiError.InvalidPayload,
 			}
 
 			response.JSON(w)
 			return
 		}
+
+		response := viewmodels.HTTPResponseVM{
+			Status:    http.StatusBadRequest,
+			Success:   false,
+			Message:   "Invalid payload request.",
+			ErrorCode: apiError.InvalidRequestPayload,
+		}
+
+		response.JSON(w)
+		return
 	}
 
 	record := serviceTypes.CreateRecord{
