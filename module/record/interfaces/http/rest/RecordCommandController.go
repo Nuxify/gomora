@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/go-playground/validator/v10"
+
 	"gomora/interfaces/http/rest/viewmodels"
 	"gomora/internal/errors"
 	apiError "gomora/internal/errors"
@@ -27,21 +29,35 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		response := viewmodels.HTTPResponseVM{
 			Status:    http.StatusBadRequest,
 			Success:   false,
-			Message:   "Invalid payload sent.",
-			ErrorCode: apiError.InvalidPayload,
+			Message:   "Invalid payload request.",
+			ErrorCode: apiError.InvalidRequestPayload,
 		}
 
 		response.JSON(w)
 		return
 	}
 
-	// verify content must not empty
-	if len(request.Data) == 0 {
+	// validate request
+	err := types.Validate.Struct(request)
+	if err != nil {
+		errors := err.(validator.ValidationErrors)
+		if len(errors) > 0 {
+			response := viewmodels.HTTPResponseVM{
+				Status:    http.StatusBadRequest,
+				Success:   false,
+				Message:   types.ValidationErrors[errors[0].StructNamespace()],
+				ErrorCode: apiError.InvalidPayload,
+			}
+
+			response.JSON(w)
+			return
+		}
+
 		response := viewmodels.HTTPResponseVM{
 			Status:    http.StatusBadRequest,
 			Success:   false,
-			Message:   "Data input cannot be empty.",
-			ErrorCode: apiError.InvalidPayload,
+			Message:   "Invalid payload request.",
+			ErrorCode: apiError.InvalidRequestPayload,
 		}
 
 		response.JSON(w)
