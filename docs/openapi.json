@@ -5,7 +5,7 @@
        "description": "A progressive framework-agnostic API template following CLEAN architecture and SOLID principles. DDD inspired :)",
        "termsOfService": "https://github.com/Nuxify/gomora",
        "contact": {
-          "name": "Gomora API Developer",
+          "name": "Nuxify Inc.",
           "email": "hello@nuxify.tech"
        },
        "version": "1.0.0"
