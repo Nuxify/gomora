@@ -15,6 +15,7 @@ import (
 	"sync"
 
 	"gomora/infrastructures/database/mysql"
+	"gomora/infrastructures/database/mysql/types"
 
 	recordRepository "gomora/module/record/infrastructure/repository"
 	recordService "gomora/module/record/infrastructure/service"
@@ -42,7 +43,7 @@ var (
 	mysqlDBHandler *mysql.MySQLDBHandler
 )
 
-//================================= gRPC ===================================
+// ================================= gRPC ===================================
 // RegisterRecordGRPCCommandController performs dependency injection to the RegisterRecordGRPCCommandController
 func (k *kernel) RegisterRecordGRPCCommandController() recordGRPC.RecordCommandController {
 	service := k.recordCommandServiceContainer()
@@ -67,7 +68,7 @@ func (k *kernel) RegisterRecordGRPCQueryController() recordGRPC.RecordQueryContr
 
 //==========================================================================
 
-//================================= REST ===================================
+// ================================= REST ===================================
 // RegisterRecordRESTCommandController performs dependency injection to the RegisterRecordRESTCommandController
 func (k *kernel) RegisterRecordRESTCommandController() recordREST.RecordCommandController {
 	service := k.recordCommandServiceContainer()
@@ -121,11 +122,20 @@ func (k *kernel) recordQueryServiceContainer() *recordService.RecordQueryService
 }
 
 func registerHandlers() {
-	// create new mysql database connection
+	var err error
+
+	// connect to database
 	mysqlDBHandler = &mysql.MySQLDBHandler{}
-	err := mysqlDBHandler.Connect(os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_DATABASE"), os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"))
+
+	err = mysqlDBHandler.Connect(types.ConnectionParams{
+		DBHost:     os.Getenv("DB_HOST"),
+		DBPort:     os.Getenv("DB_PORT"),
+		DBDatabase: os.Getenv("DB_DATABASE"),
+		DBUsername: os.Getenv("DB_USERNAME"),
+		DBPassword: os.Getenv("DB_PASSWORD"),
+	})
 	if err != nil {
-		log.Fatalf("[SERVER] mysql database is not responding %v", err)
+		log.Fatalf("[SERVER] mysql database is not responding: %v", err)
 	}
 }
 
