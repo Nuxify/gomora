@@ -8,7 +8,6 @@ import (
 	"os"
 	"time"
 
-	// mysql import handler
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/ssh"
