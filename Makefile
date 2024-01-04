@@ -31,5 +31,10 @@ test:
 run:	build
 	./bin/gomora
 
+.PHONY: up
+up:
+	docker compose down
+	docker compose up -d --build
+
 proto-record:
 	protoc --go_out=plugins=grpc:. --go_opt=paths=source_relative module/record/interfaces/http/grpc/pb/record.proto
