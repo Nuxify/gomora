@@ -44,7 +44,8 @@ To build, run:
 To run the container:
 - make up
 
-## Contributors ✨
-[![](https://avatars0.githubusercontent.com/u/38805756?s=90&u=96545a7174420f0ae00a9511c74e6ed74a9e5319&v=4)](https://github.com/kabaluyot)
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
 
 Made with ❤️ at [Nuxify](https://nuxify.tech)
