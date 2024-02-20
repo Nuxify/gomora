@@ -19,6 +19,8 @@ const (
 	MissingConfiguration string = "MISSING_CONFIGURATION"
 	// MissingRecord is the code for no record found
 	MissingRecord string = "MISSING_RECORD"
+	// ServerError is the code for server error
+	ServerError string = "SERVER_ERROR"
 	// ServerMaintenance is the code for server maintenance
 	ServerMaintenance string = "SERVER_MAINTENANCE"
 	// StorageUploadFailed is the code when storage upload (like to s3) failed
