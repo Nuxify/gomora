@@ -31,7 +31,7 @@ func (h *MySQLDBHandler) Connect(params types.ConnectionParams) error {
 		params.Dial = "tcp" // default
 	}
 
-	conn, err := sqlx.Connect("mysql", fmt.Sprintf("%s:%s@%s(%s:%s)/%s?parseTime=true", params.DBUsername, params.DBPassword, params.Dial, params.DBHost, params.DBPort, params.DBDatabase))
+	conn, err := sqlx.Connect("mysql", fmt.Sprintf("%s:%s@%s(%s:%s)/%s?parseTime=true&sql_mode=TRADITIONAL", params.DBUsername, params.DBPassword, params.Dial, params.DBHost, params.DBPort, params.DBDatabase))
 	if err != nil {
 		return err
 	}
