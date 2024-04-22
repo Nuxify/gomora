@@ -67,9 +67,15 @@ func (router *router) InitRouter() *chi.Mux {
 	})
 
 	// docs routes
-	workDir, _ := os.Getwd()
-	docsDir := http.Dir(filepath.Join(workDir, "docs"))
-	FileServer(r, "/docs", docsDir)
+	r.Group(func(r chi.Router) {
+		r.Use(middleware.BasicAuth(os.Getenv("API_NAME"), map[string]string{
+			"sudo": os.Getenv("OPENAPI_DOCS_PASSWORD"),
+		}))
+
+		workDir, _ := os.Getwd()
+		docsDir := http.Dir(filepath.Join(workDir, "docs"))
+		FileServer(r, "/docs", docsDir)
+	})
 
 	// API routes
 	r.Group(func(r chi.Router) {
