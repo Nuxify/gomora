@@ -67,19 +67,23 @@ func (router *router) InitRouter() *chi.Mux {
 	})
 
 	// docs routes
-	workDir, _ := os.Getwd()
-	docsDir := http.Dir(filepath.Join(workDir, "docs"))
-	FileServer(r, "/docs", docsDir)
+	r.Group(func(r chi.Router) {
+		r.Use(middleware.BasicAuth(os.Getenv("API_NAME"), map[string]string{
+			"sudo": os.Getenv("OPENAPI_DOCS_PASSWORD"),
+		}))
+
+		workDir, _ := os.Getwd()
+		docsDir := http.Dir(filepath.Join(workDir, "docs"))
+		FileServer(r, "/docs", docsDir)
+	})
 
 	// API routes
 	r.Group(func(r chi.Router) {
-		r.Route("/api", func(r chi.Router) {
-			r.Route("/v1", func(r chi.Router) {
-				// routes for record
-				r.Route("/record", func(r chi.Router) {
-					r.Post("/", recordCommandController.CreateRecord)
-					r.Get("/{id}", recordQueryController.GetRecordByID)
-				})
+		r.Route("/v1", func(r chi.Router) {
+			// record module
+			r.Route("/record", func(r chi.Router) {
+				r.Post("/", recordCommandController.CreateRecord)
+				r.Get("/{id}", recordQueryController.GetRecordByID)
 			})
 		})
 	})
