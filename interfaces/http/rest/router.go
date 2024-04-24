@@ -79,13 +79,11 @@ func (router *router) InitRouter() *chi.Mux {
 
 	// API routes
 	r.Group(func(r chi.Router) {
-		r.Route("/api", func(r chi.Router) {
-			r.Route("/v1", func(r chi.Router) {
-				// routes for record
-				r.Route("/record", func(r chi.Router) {
-					r.Post("/", recordCommandController.CreateRecord)
-					r.Get("/{id}", recordQueryController.GetRecordByID)
-				})
+		r.Route("/v1", func(r chi.Router) {
+			// record module
+			r.Route("/record", func(r chi.Router) {
+				r.Post("/", recordCommandController.CreateRecord)
+				r.Get("/{id}", recordQueryController.GetRecordByID)
 			})
 		})
 	})
