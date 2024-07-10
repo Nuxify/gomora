@@ -1,11 +1,6 @@
 # set default shell
 SHELL = bash -e -o pipefail
 
-# variables
-VERSION                  ?= $(shell cat ./VERSION)
-
-now=$(shell date +"%Y%m%d%H%M%S")
-
 default: run
 
 .PHONY:	install
