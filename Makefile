@@ -1,3 +1,5 @@
+include .env
+
 # set default shell
 SHELL = bash -e -o pipefail
 
@@ -30,6 +32,19 @@ run:	build
 up:
 	docker compose down
 	docker compose up -d --build
+
+.PHONY:	schema
+schema:
+	mkdir -p db/migration
+	migrate create -ext sql -dir db/migration -seq ${NAME}
+
+.PHONY: migrate-up
+migrate-up: 
+	migrate -path db/migration/ -database "mysql://${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}" -verbose up ${STEPS}
+
+.PHONY: migrate-down
+migrate-down:
+	migrate -path db/migration/ -database "mysql://${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}" -verbose down ${STEPS}
 
 proto-record:
 	protoc --go_out=plugins=grpc:. --go_opt=paths=source_relative module/record/interfaces/http/grpc/pb/record.proto

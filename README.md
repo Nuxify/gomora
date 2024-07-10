@@ -11,6 +11,19 @@ Gomora provides the example for a module-based gRPC and REST server suitable for
 
 <img width="1419" alt="Screen Shot 2023-11-08 at 9 23 52 AM" src="https://github.com/kabaluyot/gomora/assets/38805756/698b605b-63dd-4f83-ae52-06cd5eb3a157">
 
+## Database Migration
+
+Gomora uses go-migrate (https://github.com/golang-migrate/migrate) to handle migration. Download and change your migrate database command accordingly.
+
+To create a schema, run:
+- make schema NAME=<init_schema>
+
+To migrate up, run:
+- make migrate-up STEPS=<remove STEPS to apply all or specify step number>
+
+To migrate down, run:
+- make migrate-down STEPS=<remove STEPS to apply all or specify step number>
+
 ## Local Development
 
 Setup the .env file first
