@@ -1,4 +1,5 @@
 # Gomora
+
 A progressive framework-agnostic API template following CLEAN architecture and SOLID principles. DDD inspired :)
 
 ## Introduction
@@ -14,35 +15,82 @@ Gomora provides the example for a module-based gRPC and REST server suitable for
 ## Local Development
 
 Setup the .env file first
-- cp .env.example .env
+
+```bash
+cp .env.example .env
+```
 
 To bootstrap everything, run:
-- make
+
+```bash
+make
+```
 
 The command above will install, build, and run the binary
 
 For manual install:
-- make install
+
+```bash
+make install
+```
 
 For lint:
-- make lint
+
+```bash
+make lint
+```
 
 Just ensure you installed golangci-lint.
 
 To test:
-- make test
+
+```bash
+make test
+```
 
 For manual build:
-- make build
-- NOTE: the output for this is in bin/
+
+```bash
+make build
+
+# The output for this is in bin/
+```
 
 ## Docker Build
 
 To build, run:
-- make run
+
+```bash
+make run
+```
 
 To run the container:
-- make up
+
+```bash
+make up
+```
+
+## Database Migration
+
+Gomora uses go-migrate (https://github.com/golang-migrate/migrate) to handle migration. Download and change your migrate database command accordingly.
+
+To create a schema, run:
+
+```bash
+make schema NAME=<init_schema>
+```
+
+To migrate up, run:
+
+```bash
+make migrate-up STEPS=<remove STEPS to apply all or specify step number>
+```
+
+To migrate down, run:
+
+```bash
+make migrate-down STEPS=<remove STEPS to apply all or specify step number>
+```
 
 ## License
 
