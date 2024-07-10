@@ -35,16 +35,16 @@ up:
 
 .PHONY:	schema
 schema:
-	mkdir -p db/migration
-	migrate create -ext sql -dir db/migration -seq ${NAME}
+	mkdir -p infrastructures/database/mysql/migration
+	migrate create -ext sql -dir infrastructures/database/mysql/migration -seq ${NAME}
 
 .PHONY: migrate-up
 migrate-up: 
-	migrate -path db/migration/ -database "mysql://${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}" -verbose up ${STEPS}
+	migrate -path infrastructures/database/mysql/migration -database "mysql://${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}" -verbose up ${STEPS}
 
 .PHONY: migrate-down
 migrate-down:
-	migrate -path db/migration/ -database "mysql://${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}" -verbose down ${STEPS}
+	migrate -path infrastructures/database/mysql/migration -database "mysql://${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}" -verbose down ${STEPS}
 
 proto-record:
 	protoc --go_out=plugins=grpc:. --go_opt=paths=source_relative module/record/interfaces/http/grpc/pb/record.proto
