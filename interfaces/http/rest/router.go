@@ -132,5 +132,6 @@ func ChiRouter() ChiRouterInterface {
 			m = &router{}
 		})
 	}
+
 	return m
 }

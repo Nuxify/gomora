@@ -16,7 +16,6 @@ import (
 
 	"gomora/infrastructures/database/mysql"
 	"gomora/infrastructures/database/mysql/types"
-
 	recordRepository "gomora/module/record/infrastructure/repository"
 	recordService "gomora/module/record/infrastructure/service"
 	recordGRPC "gomora/module/record/interfaces/http/grpc"
@@ -126,7 +125,6 @@ func registerHandlers() {
 
 	// connect to database
 	mysqlDBHandler = &mysql.MySQLDBHandler{}
-
 	err = mysqlDBHandler.Connect(types.ConnectionParams{
 		DBHost:     os.Getenv("DB_HOST"),
 		DBPort:     os.Getenv("DB_PORT"),
@@ -152,5 +150,6 @@ func ServiceContainer() ServiceContainerInterface {
 			k = &kernel{}
 		})
 	}
+
 	return k
 }
