@@ -51,9 +51,9 @@ func (router *router) InitRouter() *chi.Mux {
 	// global and recommended middlewares
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
-	r.Use(middleware.Recoverer)
 	r.Use(middleware.Logger)
 	r.Use(cors.Init().Handler)
+	r.Use(middleware.Recoverer)
 
 	// default route
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
