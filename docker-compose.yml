@@ -26,6 +26,7 @@ services:
       - "traefik.http.routers.gomora-secure.service=${API_NAME}"
       - "traefik.http.services.gomora.loadbalancer.server.port=${API_URL_REST_PORT}"
       - "traefik.docker.network=proxy"
+      
 networks:
   proxy:
     external: true
