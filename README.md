@@ -88,8 +88,20 @@ make migrate-up STEPS=<remove STEPS to apply all or specify step number>
 
 To migrate down, run:
 
-```bash
+````bash
 make migrate-down STEPS=<remove STEPS to apply all or specify step number>
+``
+
+To check migrate version, run:
+
+```bash
+make migrate-version
+````
+
+To force migrate, run:
+
+```bash
+make migrate-force STEPS=<specify step number>
 ```
 
 ## License
