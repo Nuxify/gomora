@@ -83,25 +83,25 @@ make schema NAME=<init_schema>
 To migrate up, run:
 
 ```bash
-make migrate-up STEPS=<remove STEPS to apply all or specify step number>
+STEPS=<remove STEPS to apply all or specify step number> make migrate-up
 ```
 
 To migrate down, run:
 
-````bash
-make migrate-down STEPS=<remove STEPS to apply all or specify step number>
-``
+```bash
+STEPS=<remove STEPS to apply all or specify step number> make migrate-down
+```
 
 To check migrate version, run:
 
 ```bash
 make migrate-version
-````
+```
 
 To force migrate, run:
 
 ```bash
-make migrate-force STEPS=<specify step number>
+STEPS=<specify step number> make migrate-force
 ```
 
 ## License
