@@ -3,7 +3,7 @@ include .env
 # set default shell
 SHELL = bash -e -o pipefail
 
-default: run
+default: run-dev
 
 .PHONY:	install
 install:
@@ -17,6 +17,12 @@ lint:
 .PHONY:	build
 build:
 	mkdir -p bin
+	go build -o bin/gomora \
+	    cmd/main.go
+
+.PHONY:	build-dev
+build-dev:
+	mkdir -p bin
 	go build -race -o bin/gomora \
 	    cmd/main.go
 
@@ -26,6 +32,10 @@ test:
 	
 .PHONY:	run
 run:	build
+	./bin/gomora
+
+.PHONY:	run-dev
+run-dev:	build-dev
 	./bin/gomora
 
 .PHONY: up
