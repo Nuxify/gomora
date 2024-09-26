@@ -14,7 +14,6 @@ services:
       - proxy
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gomora.entrypoints=http"
