@@ -61,6 +61,7 @@ func (router *router) InitRouter() *chi.Mux {
 			Status:  http.StatusOK,
 			Success: true,
 			Message: "alive",
+			Data:    map[string]string{"version": os.Getenv("API_VERSION")},
 		}
 
 		response.JSON(w)
