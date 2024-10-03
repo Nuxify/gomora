@@ -1,9 +1,7 @@
-version: "3.3"
-
 services:
   gomora:
     build: .
-    container_name: gomora
+    container_name: ${API_NAME}
     mem_limit: "3g"
     restart: unless-stopped
     logging:
@@ -16,16 +14,16 @@ services:
       - /etc/localtime:/etc/localtime:ro
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.gomora.entrypoints=http"
-      - "traefik.http.routers.gomora.rule=Host(`${API_URL_REST}`)"
-      - "traefik.http.routers.gomora-secure.entrypoints=https"
-      - "traefik.http.routers.gomora-secure.rule=Host(`${API_URL_REST}`)"
-      - "traefik.http.routers.gomora-secure.tls=true"
-      - "traefik.http.routers.gomora-secure.tls.certresolver=http"
-      - "traefik.http.routers.gomora-secure.service=${API_NAME}"
-      - "traefik.http.services.gomora.loadbalancer.server.port=${API_URL_REST_PORT}"
+      - "traefik.http.routers.${API_NAME}.entrypoints=http"
+      - "traefik.http.routers.${API_NAME}.rule=Host(`${API_URL_REST}`)"
+      - "traefik.http.routers.${API_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${API_NAME}-secure.rule=Host(`${API_URL_REST}`)"
+      - "traefik.http.routers.${API_NAME}-secure.tls=true"
+      - "traefik.http.routers.${API_NAME}-secure.tls.certresolver=http"
+      - "traefik.http.routers.${API_NAME}-secure.service=${API_NAME}"
+      - "traefik.http.services.${API_NAME}.loadbalancer.server.port=${API_URL_REST_PORT}"
       - "traefik.docker.network=proxy"
-      
+
 networks:
   proxy:
     external: true
