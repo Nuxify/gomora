@@ -6,11 +6,13 @@ A progressive framework-agnostic API template following CLEAN architecture and S
 
 Gomora provides the example for a module-based gRPC and REST server suitable for building progressive APIs (from monolith to distributed microservices).
 
-![image](https://github.com/kabaluyot/gomora/assets/38805756/b6d30884-15e0-4b2f-99bf-fad48bb6da87)
+<img width="1416" alt="Screen Shot 2024-10-07 at 9 43 31 AM" src="https://github.com/user-attachments/assets/736b9813-f086-4fd4-aeb3-98e08df51e7e">
 
-<img width="1419" alt="Screen Shot 2023-11-08 at 9 23 38 AM" src="https://github.com/kabaluyot/gomora/assets/38805756/4f7f77f5-b0a5-4911-b3fd-a1abcaca40bb">
+<img width="1416" alt="Screen Shot 2024-10-07 at 9 41 10 AM" src="https://github.com/user-attachments/assets/0225919b-53d1-4900-9b9e-8d5d5f616d73">
 
-<img width="1419" alt="Screen Shot 2023-11-08 at 9 23 52 AM" src="https://github.com/kabaluyot/gomora/assets/38805756/698b605b-63dd-4f83-ae52-06cd5eb3a157">
+<img width="1416" alt="Screen Shot 2024-10-07 at 9 44 17 AM" src="https://github.com/user-attachments/assets/a5871a22-be66-4236-8635-6166624249c1">
+
+<img width="1416" alt="Screen Shot 2024-10-07 at 9 46 05 AM" src="https://github.com/user-attachments/assets/578de61d-73cb-47b9-8806-ed58a7b281a1">
 
 ## Local Development
 
