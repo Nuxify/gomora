@@ -16,32 +16,27 @@ func JWTAuthCustomMiddleware(next http.Handler) http.Handler {
 		if err != nil {
 			var httpCode int
 			var errorMsg string
-			var errorCode string
 
 			switch {
 			case err == jwtauth.ErrExpired:
 				httpCode = http.StatusUnauthorized
 				errorMsg = "Token has expired."
-				errorCode = errors.UnauthorizedAccess
 			case err == jwtauth.ErrNoTokenFound:
 				httpCode = http.StatusUnauthorized
 				errorMsg = "No token found."
-				errorCode = errors.UnauthorizedAccess
 			case err == jwtauth.ErrUnauthorized:
 				httpCode = http.StatusUnauthorized
 				errorMsg = "Invalid token."
-				errorCode = errors.UnauthorizedAccess
 			default:
 				httpCode = http.StatusUnauthorized
 				errorMsg = "Invalid token"
-				errorCode = errors.UnauthorizedAccess
 			}
 
 			response := viewmodels.HTTPResponseVM{
 				Status:    httpCode,
 				Success:   false,
 				Message:   errorMsg,
-				ErrorCode: errorCode,
+				ErrorCode: errors.UnauthorizedAccess,
 			}
 
 			response.JSON(w)
