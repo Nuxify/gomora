@@ -65,6 +65,11 @@
         "tags": ["record"],
         "summary": "Get Record By ID",
         "description": "Get record by its id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -103,6 +108,14 @@
             "type": "string"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Session token"
       }
     }
   }

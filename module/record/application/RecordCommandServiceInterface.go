@@ -9,5 +9,5 @@ import (
 
 // RecordCommandServiceInterface holds the implementable methods for the record command service
 type RecordCommandServiceInterface interface {
-	CreateRecord(ctx context.Context, data types.CreateRecord) (entity.Record, error)
+	CreateRecord(ctx context.Context, data types.CreateRecord) (entity.Record, string, error)
 }

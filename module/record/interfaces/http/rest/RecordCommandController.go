@@ -69,7 +69,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		Data: request.Data,
 	}
 
-	res, err := controller.RecordCommandServiceInterface.CreateRecord(context.TODO(), record)
+	res, accessToken, err := controller.RecordCommandServiceInterface.CreateRecord(context.TODO(), record)
 	if err != nil {
 		var httpCode int
 		var errorMsg string
@@ -102,9 +102,10 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		Success: true,
 		Message: "Successfully created record.",
 		Data: &types.RecordResponse{
-			ID:        res.ID,
-			Data:      res.Data,
-			CreatedAt: time.Now().Unix(),
+			ID:          res.ID,
+			Data:        res.Data,
+			CreatedAt:   time.Now().Unix(),
+			AccessToken: accessToken,
 		},
 	}
 

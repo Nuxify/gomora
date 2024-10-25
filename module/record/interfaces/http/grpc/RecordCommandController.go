@@ -27,7 +27,7 @@ func (controller *RecordCommandController) CreateRecord(ctx context.Context, req
 		Data: req.Data,
 	}
 
-	res, err := controller.RecordCommandServiceInterface.CreateRecord(context.TODO(), record)
+	res, _, err := controller.RecordCommandServiceInterface.CreateRecord(context.TODO(), record)
 	if err != nil {
 		var code codes.Code
 
