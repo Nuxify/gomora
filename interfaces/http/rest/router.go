@@ -24,7 +24,7 @@ import (
 
 	"gomora/interfaces"
 	"gomora/interfaces/http/rest/middlewares/cors"
-	"gomora/interfaces/http/rest/middlewares/jwt"
+	jwt "gomora/interfaces/http/rest/middlewares/iam"
 	"gomora/interfaces/http/rest/viewmodels"
 )
 
@@ -87,12 +87,13 @@ func (router *router) InitRouter() *chi.Mux {
 
 			// record module
 			r.Route("/record", func(r chi.Router) {
-				r.Post("/", recordCommandController.CreateRecord)
+				r.Post("/token/generate", recordCommandController.GenerateToken)
 
 				r.Group(func(r chi.Router) {
 					r.Use(jwtauth.Verifier(tokenAuth))
-					r.Use(jwt.JWTAuthCustomMiddleware)
+					r.Use(jwt.JWTAuthMiddleware)
 
+					r.Post("/", recordCommandController.CreateRecord)
 					r.Get("/{id}", recordQueryController.GetRecordByID)
 				})
 			})

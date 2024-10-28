@@ -31,11 +31,34 @@
     }
   ],
   "paths": {
+    "/record/token/generate": {
+      "post": {
+        "tags": ["record"],
+        "summary": "Generate Token",
+        "description": "Generates a token",
+        "responses": {
+          "2xx": {
+            "description": "Success"
+          },
+          "4xx": {
+            "description": "Client side errors"
+          },
+          "5xx": {
+            "description": "Server side errors"
+          }
+        }
+      }
+    },
     "/record": {
       "post": {
         "tags": ["record"],
         "summary": "Create Record",
         "description": "Creates a record",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "description": "Creates a record request",
           "content": {

@@ -20,8 +20,11 @@ type CreateRecordRequest struct {
 
 // RecordResponse response struct
 type RecordResponse struct {
-	ID          string `json:"id"`
-	Data        string `json:"data"`
-	CreatedAt   int64  `json:"createdAt"`
+	ID        string `json:"id"`
+	Data      string `json:"data"`
+	CreatedAt int64  `json:"createdAt"`
+}
+
+type GenerateTokenResponse struct {
 	AccessToken string `json:"accessToken"`
 }

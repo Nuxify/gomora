@@ -20,7 +20,7 @@ type RecordCommandService struct {
 }
 
 // CreateRecord create a record also generates a jwt token
-func (service *RecordCommandService) CreateRecord(ctx context.Context, data types.CreateRecord) (entity.Record, string, error) {
+func (service *RecordCommandService) CreateRecord(ctx context.Context, data types.CreateRecord) (entity.Record, error) {
 	record := repositoryTypes.CreateRecord{
 		ID:   data.ID,
 		Data: data.Data,
@@ -31,28 +31,21 @@ func (service *RecordCommandService) CreateRecord(ctx context.Context, data type
 		record.ID = generateID()
 	}
 
-	// generate jwt token
-	accessToken, err := service.GenerateJWT(record.ID)
-	if err != nil {
-		return entity.Record{}, "", err
-	}
-
 	res, err := service.RecordCommandRepositoryInterface.InsertRecord(record)
 	if err != nil {
-		return entity.Record{}, "", err
+		return entity.Record{}, err
 	}
 
-	return res, accessToken, nil
+	return res, nil
 }
 
-// GenerateJWT generates a jwt token
-func (service *RecordCommandService) GenerateJWT(id string) (string, error) {
+// GenerateToken generates a jwt token
+func (service *RecordCommandService) GenerateToken(ctx context.Context) (string, error) {
 	// create access token
 	accessTokenClaims := jwt.MapClaims{
-		"id":  id,
 		"iss": "gomora",
 		"iat": time.Now().Unix(),
-		"exp": time.Now().Add(time.Second * 30).Unix(), // 30 seconds for testing purpose
+		"exp": time.Now().Add(time.Minute * 15).Unix(),
 	}
 
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)

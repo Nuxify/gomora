@@ -69,7 +69,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		Data: request.Data,
 	}
 
-	res, accessToken, err := controller.RecordCommandServiceInterface.CreateRecord(context.TODO(), record)
+	res, err := controller.RecordCommandServiceInterface.CreateRecord(context.TODO(), record)
 	if err != nil {
 		var httpCode int
 		var errorMsg string
@@ -102,10 +102,48 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		Success: true,
 		Message: "Successfully created record.",
 		Data: &types.RecordResponse{
-			ID:          res.ID,
-			Data:        res.Data,
-			CreatedAt:   time.Now().Unix(),
-			AccessToken: accessToken,
+			ID:        res.ID,
+			Data:      res.Data,
+			CreatedAt: time.Now().Unix(),
+		},
+	}
+
+	response.JSON(w)
+}
+
+// GenerateToken request handler to generate token
+func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, r *http.Request) {
+	token, err := controller.RecordCommandServiceInterface.GenerateToken(context.TODO())
+	if err != nil {
+		var httpCode int
+		var errorMsg string
+
+		switch err.Error() {
+		case errors.DatabaseError:
+			httpCode = http.StatusInternalServerError
+			errorMsg = "Error occurred while generating token."
+		default:
+			httpCode = http.StatusInternalServerError
+			errorMsg = "Please contact technical support."
+		}
+
+		response := viewmodels.HTTPResponseVM{
+			Status:    httpCode,
+			Success:   false,
+			Message:   errorMsg,
+			ErrorCode: err.Error(),
+		}
+
+		response.JSON(w)
+		return
+	}
+
+	response := viewmodels.HTTPResponseVM{
+		Status:  http.StatusOK,
+		Success: true,
+		Message: "Successfully generated token.",
+		Data: &types.GenerateTokenResponse{
+			AccessToken: token,
 		},
 	}
 
