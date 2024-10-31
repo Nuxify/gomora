@@ -15,11 +15,14 @@ type RecordQueryRepositoryCircuitBreaker struct {
 // SelectRecordByID decorator pattern for select record repository
 func (repository *RecordQueryRepositoryCircuitBreaker) SelectRecordByID(ID string) (entity.Record, error) {
 	output := make(chan entity.Record, 1)
+	errChan := make(chan error, 1)
+
 	hystrix.ConfigureCommand("select_record_by_id", config.Settings())
 	errors := hystrix.Go("select_record_by_id", func() error {
 		record, err := repository.RecordQueryRepositoryInterface.SelectRecordByID(ID)
 		if err != nil {
-			return err
+			errChan <- err
+			return nil
 		}
 
 		output <- record
@@ -29,6 +32,8 @@ func (repository *RecordQueryRepositoryCircuitBreaker) SelectRecordByID(ID strin
 	select {
 	case out := <-output:
 		return out, nil
+	case err := <-errChan:
+		return entity.Record{}, err
 	case err := <-errors:
 		return entity.Record{}, err
 	}

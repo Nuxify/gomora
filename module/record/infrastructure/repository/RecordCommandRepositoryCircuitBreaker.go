@@ -19,11 +19,14 @@ var config = hystrix_config.Config{}
 // InsertRecord decorator pattern to insert record
 func (repository *RecordCommandRepositoryCircuitBreaker) InsertRecord(data repositoryTypes.CreateRecord) (entity.Record, error) {
 	output := make(chan entity.Record, 1)
+	errChan := make(chan error, 1)
+
 	hystrix.ConfigureCommand("insert_record", config.Settings())
 	errors := hystrix.Go("insert_record", func() error {
 		record, err := repository.RecordCommandRepositoryInterface.InsertRecord(data)
 		if err != nil {
-			return err
+			errChan <- err
+			return nil
 		}
 
 		output <- record
@@ -33,6 +36,8 @@ func (repository *RecordCommandRepositoryCircuitBreaker) InsertRecord(data repos
 	select {
 	case out := <-output:
 		return out, nil
+	case err := <-errChan:
+		return entity.Record{}, err
 	case err := <-errors:
 		return entity.Record{}, err
 	}
