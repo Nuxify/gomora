@@ -19,7 +19,7 @@ type RecordCommandService struct {
 	repository.RecordCommandRepositoryInterface
 }
 
-// CreateRecord create a record also generates a jwt token
+// CreateRecord create a record
 func (service *RecordCommandService) CreateRecord(ctx context.Context, data types.CreateRecord) (entity.Record, error) {
 	record := repositoryTypes.CreateRecord{
 		ID:   data.ID,
