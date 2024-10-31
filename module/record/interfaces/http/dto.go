@@ -18,9 +18,20 @@ type CreateRecordRequest struct {
 	Data string `json:"data" validate:"required"`
 }
 
-// RecordResponse response struct
-type RecordResponse struct {
+// CreateRecordResponse response struct
+type CreateRecordResponse struct {
 	ID        string `json:"id"`
 	Data      string `json:"data"`
 	CreatedAt int64  `json:"createdAt"`
+}
+
+// GetRecordResponse response struct
+type GetRecordResponse struct {
+	ID        string `json:"id"`
+	Data      string `json:"data"`
+	CreatedAt int64  `json:"createdAt"`
+}
+
+type GenerateTokenResponse struct {
+	AccessToken string `json:"accessToken"`
 }

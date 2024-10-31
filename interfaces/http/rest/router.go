@@ -20,9 +20,11 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/jwtauth"
 
 	"gomora/interfaces"
 	"gomora/interfaces/http/rest/middlewares/cors"
+	jwt "gomora/interfaces/http/rest/middlewares/iam"
 	"gomora/interfaces/http/rest/viewmodels"
 )
 
@@ -81,10 +83,19 @@ func (router *router) InitRouter() *chi.Mux {
 	// API routes
 	r.Group(func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
+			tokenAuth := jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET")), nil)
+
 			// record module
 			r.Route("/record", func(r chi.Router) {
-				r.Post("/", recordCommandController.CreateRecord)
-				r.Get("/{id}", recordQueryController.GetRecordByID)
+				r.Post("/token/generate", recordCommandController.GenerateToken)
+
+				r.Group(func(r chi.Router) {
+					r.Use(jwtauth.Verifier(tokenAuth))
+					r.Use(jwt.JWTAuthMiddleware)
+
+					r.Post("/", recordCommandController.CreateRecord)
+					r.Get("/{id}", recordQueryController.GetRecordByID)
+				})
 			})
 		})
 	})

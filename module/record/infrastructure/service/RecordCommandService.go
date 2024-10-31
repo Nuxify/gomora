@@ -2,7 +2,10 @@ package service
 
 import (
 	"context"
+	"os"
+	"time"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/segmentio/ksuid"
 
 	"gomora/module/record/domain/entity"
@@ -34,6 +37,24 @@ func (service *RecordCommandService) CreateRecord(ctx context.Context, data type
 	}
 
 	return res, nil
+}
+
+// GenerateToken generates a jwt token
+func (service *RecordCommandService) GenerateToken(ctx context.Context) (string, error) {
+	// create access token
+	accessTokenClaims := jwt.MapClaims{
+		"iss": "gomora",
+		"iat": time.Now().Unix(),
+		"exp": time.Now().Add(time.Minute * 15).Unix(),
+	}
+
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
+	token, err := at.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }
 
 // generateID generates unique id

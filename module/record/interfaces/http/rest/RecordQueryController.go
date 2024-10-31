@@ -65,7 +65,7 @@ func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r 
 		Status:  http.StatusOK,
 		Success: true,
 		Message: "Record successfully fetched.",
-		Data: &types.RecordResponse{
+		Data: &types.GetRecordResponse{
 			ID:        res.ID,
 			Data:      res.Data,
 			CreatedAt: res.CreatedAt.Unix(),
