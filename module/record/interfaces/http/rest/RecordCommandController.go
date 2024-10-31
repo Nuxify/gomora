@@ -101,7 +101,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		Status:  http.StatusOK,
 		Success: true,
 		Message: "Successfully created record.",
-		Data: &types.RecordResponse{
+		Data: &types.CreateRecordResponse{
 			ID:        res.ID,
 			Data:      res.Data,
 			CreatedAt: time.Now().Unix(),
