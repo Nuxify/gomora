@@ -3,7 +3,7 @@ package jwt
 import (
 	"net/http"
 
-	"github.com/go-chi/jwtauth"
+	"github.com/go-chi/jwtauth/v5"
 
 	"gomora/interfaces/http/rest/viewmodels"
 	"gomora/internal/errors"
