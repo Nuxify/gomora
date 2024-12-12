@@ -4,7 +4,6 @@ go 1.21
 
 require (
 	github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5
-	github.com/go-chi/chi v1.5.4
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/jwtauth/v5 v5.3.1
