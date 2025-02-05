@@ -43,8 +43,8 @@ up:
 	docker compose down
 	docker compose up -d --build
 
-.PHONY:	schema
-schema:
+.PHONY:	migrate-schema
+migrate-schema:
 	mkdir -p infrastructures/database/mysql/migrations
 	migrate create -ext sql -dir infrastructures/database/mysql/migrations -seq ${NAME}
 
