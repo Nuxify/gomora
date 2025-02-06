@@ -32,11 +32,6 @@ func (h *MySQLDBHandler) Begin() (*sqlx.Tx, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		if err != nil {
-			tx.Rollback()
-		}
-	}()
 
 	return tx, nil
 }
