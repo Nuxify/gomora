@@ -25,6 +25,17 @@ type viaSSHDialer struct {
 	client *ssh.Client
 }
 
+// Begin starts a new transaction
+func (h *MySQLDBHandler) Begin() (*sqlx.Tx, error) {
+	// begin transaction
+	tx, err := h.Conn.Beginx()
+	if err != nil {
+		return nil, err
+	}
+
+	return tx, nil
+}
+
 // Connect opens a new connection to the mysql interface
 func (h *MySQLDBHandler) Connect(params types.ConnectionParams) error {
 	if len(params.Dial) == 0 {
