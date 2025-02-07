@@ -79,7 +79,7 @@ Gomora uses go-migrate (https://github.com/golang-migrate/migrate) to handle mig
 To create a schema, run:
 
 ```bash
-make schema NAME=<init_schema>
+NAME=<init_schema> make migrate-schema
 ```
 
 To migrate up, run:
