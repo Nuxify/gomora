@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/segmentio/ksuid"
 
 	"gomora/module/record/domain/entity"
