@@ -40,21 +40,25 @@ func (service *RecordCommandService) CreateRecord(ctx context.Context, data type
 }
 
 // GenerateToken generates a jwt token
-func (service *RecordCommandService) GenerateToken(ctx context.Context) (string, error) {
+func (service *RecordCommandService) GenerateToken(ctx context.Context) (types.JWTResponse, error) {
 	// create access token
+	expiresAt := time.Now().Add(time.Minute * 10080) // TODO: currently 7 days
 	accessTokenClaims := jwt.MapClaims{
 		"iss": "gomora",
 		"iat": time.Now().Unix(),
-		"exp": time.Now().Add(time.Minute * 15).Unix(),
+		"exp": expiresAt.Unix(),
 	}
 
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
 	token, err := at.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
-		return "", err
+		return types.JWTResponse{}, err
 	}
 
-	return token, nil
+	return types.JWTResponse{
+		AccessToken: token,
+		ExpiresAt:   expiresAt,
+	}, nil
 }
 
 // generateID generates unique id
