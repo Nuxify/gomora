@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -113,7 +114,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 
 // GenerateToken request handler to generate token
 func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, r *http.Request) {
-	token, err := controller.RecordCommandServiceInterface.GenerateToken(context.TODO())
+	res, err := controller.RecordCommandServiceInterface.GenerateToken(context.TODO())
 	if err != nil {
 		var httpCode int
 		var errorMsg string
@@ -138,14 +139,56 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 		return
 	}
 
+	// set httponly cookie
+	controller.setJWTCookie(w, res.AccessToken, res.ExpiresAt)
+
 	response := viewmodels.HTTPResponseVM{
 		Status:  http.StatusOK,
 		Success: true,
 		Message: "Successfully generated token.",
 		Data: &types.GenerateTokenResponse{
-			AccessToken: token,
+			AccessToken: res.AccessToken,
 		},
 	}
 
 	response.JSON(w)
+}
+
+func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, token string, expiresAt time.Time) {
+	cookie := &http.Cookie{
+		Name:     "jwt", // required by jwtauth.Verifier
+		Value:    token,
+		Path:     "/",
+		Expires:  expiresAt,
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+	}
+
+	// enforce domain for production
+	if os.Getenv("API_ENV") == "production" {
+		cookie.Domain = ".nuxify.tech" // allow access to all subdomains only
+	}
+
+	http.SetCookie(w, cookie)
+}
+
+func (controller *RecordCommandController) clearJWTCookie(w http.ResponseWriter) {
+	cookie := &http.Cookie{
+		Name:     "jwt",
+		Value:    "",
+		Path:     "/",
+		Expires:  time.Unix(0, 0),
+		MaxAge:   -1,
+		Secure:   true,
+		HttpOnly: true,
+		SameSite: http.SameSiteNoneMode,
+	}
+
+	// enforce domain for production
+	if os.Getenv("API_ENV") == "production" {
+		cookie.Domain = ".nuxify.tech" // allow access to all subdomains only
+	}
+
+	http.SetCookie(w, cookie)
 }
