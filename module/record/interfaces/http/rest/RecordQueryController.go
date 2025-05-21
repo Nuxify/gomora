@@ -37,8 +37,9 @@ func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r 
 	if err != nil {
 		var httpCode int
 		var errorMsg string
+		errorCode := err.Error()
 
-		switch err.Error() {
+		switch errorCode {
 		case errors.DatabaseError:
 			httpCode = http.StatusInternalServerError
 			errorMsg = "Error while fetching record."
@@ -48,6 +49,7 @@ func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r 
 		default:
 			httpCode = http.StatusInternalServerError
 			errorMsg = "Please contact technical support."
+			errorCode = errors.ServerError
 		}
 
 		response := viewmodels.HTTPResponseVM{
