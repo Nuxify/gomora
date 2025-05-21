@@ -74,8 +74,9 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 	if err != nil {
 		var httpCode int
 		var errorMsg string
+		errorCode := err.Error()
 
-		switch err.Error() {
+		switch errorCode {
 		case errors.DatabaseError:
 			httpCode = http.StatusInternalServerError
 			errorMsg = "Error occurred while saving record."
@@ -85,6 +86,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		default:
 			httpCode = http.StatusInternalServerError
 			errorMsg = "Please contact technical support."
+			errorCode = apiError.ServerError
 		}
 
 		response := viewmodels.HTTPResponseVM{
@@ -118,14 +120,16 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 	if err != nil {
 		var httpCode int
 		var errorMsg string
+		errorCode := err.Error()
 
-		switch err.Error() {
+		switch errorCode {
 		case errors.DatabaseError:
 			httpCode = http.StatusInternalServerError
 			errorMsg = "Error occurred while generating token."
 		default:
 			httpCode = http.StatusInternalServerError
 			errorMsg = "Please contact technical support."
+			errorCode = apiError.ServerError
 		}
 
 		response := viewmodels.HTTPResponseVM{
