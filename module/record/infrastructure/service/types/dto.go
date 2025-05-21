@@ -1,7 +1,13 @@
 package types
 
-// CreateRecord service types for create record
+import "time"
+
 type CreateRecord struct {
 	ID   string
 	Data string
+}
+
+type JWTResponse struct {
+	AccessToken string
+	ExpiresAt   time.Time
 }

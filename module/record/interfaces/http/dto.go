@@ -12,20 +12,17 @@ var (
 	}
 )
 
-// CreateRecordRequest request struct for create record
 type CreateRecordRequest struct {
 	ID   string `json:"id" validate:"required"`
 	Data string `json:"data" validate:"required"`
 }
 
-// CreateRecordResponse response struct
 type CreateRecordResponse struct {
 	ID        string `json:"id"`
 	Data      string `json:"data"`
 	CreatedAt int64  `json:"createdAt"`
 }
 
-// GetRecordResponse response struct
 type GetRecordResponse struct {
 	ID        string `json:"id"`
 	Data      string `json:"data"`
