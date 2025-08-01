@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"gomora/internal/errors"
 	"gomora/module/record/application"
@@ -18,6 +18,7 @@ import (
 // RecordCommandController handles the grpc record command requests
 type RecordCommandController struct {
 	application.RecordCommandServiceInterface
+	grpcPB.UnimplementedRecordCommandServiceServer
 }
 
 // CreateRecord creates a new record
@@ -45,7 +46,7 @@ func (controller *RecordCommandController) CreateRecord(ctx context.Context, req
 		return nil, st.Err()
 	}
 
-	createProtoTime, _ := ptypes.TimestampProto(time.Now())
+	createProtoTime := timestamppb.New(time.Now())
 
 	return &grpcPB.RecordResponse{
 		Id:        res.ID,

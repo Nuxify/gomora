@@ -65,4 +65,4 @@ migrate-force:
 	migrate -path infrastructures/database/mysql/migrations -database "mysql://${DB_USERNAME}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_DATABASE}" force ${STEPS}
 
 proto-record:
-	protoc --go_out=plugins=grpc:. --go_opt=paths=source_relative module/record/interfaces/http/grpc/pb/record.proto
+	protoc --go_out=. --go-grpc_out=. --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative module/record/interfaces/http/grpc/pb/record.proto
