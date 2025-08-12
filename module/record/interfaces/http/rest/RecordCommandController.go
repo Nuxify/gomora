@@ -160,7 +160,7 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 
 func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, token string, expiresAt time.Time) {
 	cookie := &http.Cookie{
-		Name:     "jwt", // required by jwtauth.Verifier
+		Name:     os.Getenv("JWT_COOKIE_NAME"), // required by jwtauth.Verifier
 		Value:    token,
 		Path:     "/",
 		Expires:  expiresAt,
@@ -179,7 +179,7 @@ func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, t
 
 func (controller *RecordCommandController) clearJWTCookie(w http.ResponseWriter) {
 	cookie := &http.Cookie{
-		Name:     "jwt",
+		Name:     os.Getenv("JWT_COOKIE_NAME"),
 		Value:    "",
 		Path:     "/",
 		Expires:  time.Unix(0, 0),

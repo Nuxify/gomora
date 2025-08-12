@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/go-chi/jwtauth/v5"
@@ -59,4 +60,27 @@ func JWTAuthMiddleware(next http.Handler) http.Handler {
 		// if token is valid, proceeds to the next handler
 		next.ServeHTTP(w, r)
 	})
+}
+
+// TODO: pass on r.Context
+// Verifier override jwtauth Verifier
+func Verifier(ja *jwtauth.JWTAuth, cookieKey *string) func(http.Handler) http.Handler {
+	random := "sample data"
+	tokenFromCookieWithKey := func(r *http.Request) string {
+		log.Println(random)
+
+		key := "jwt" // default key
+		if cookieKey != nil {
+			key = *cookieKey
+		}
+
+		cookie, err := r.Cookie(key)
+		if err != nil {
+			return ""
+		}
+
+		return cookie.Value
+	}
+
+	return jwtauth.Verify(ja, jwtauth.TokenFromHeader, tokenFromCookieWithKey)
 }
