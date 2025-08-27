@@ -84,16 +84,14 @@ func (router *router) InitRouter() *chi.Mux {
 	r.Group(func(r chi.Router) {
 		r.Route("/v1", func(r chi.Router) {
 			tokenAuth := jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET")), nil)
-			jwtCookieKey := "jwt-admin"
 
 			// record module
 			r.Route("/record", func(r chi.Router) {
-
 				r.Post("/token/generate", recordCommandController.GenerateToken)
 
 				r.Group(func(r chi.Router) {
+					r.Use(jwtauth.Verifier(tokenAuth))
 					r.Use(jwt.JWTAuthMiddleware)
-					r.Use(jwt.Verifier(tokenAuth, &jwtCookieKey))
 
 					r.Post("/", recordCommandController.CreateRecord)
 					r.Get("/{id}", recordQueryController.GetRecordByID)
