@@ -5,9 +5,22 @@ import (
 
 	"github.com/go-chi/jwtauth/v5"
 
+	"gomora/interfaces/http/rest/middlewares/iam/types"
 	"gomora/interfaces/http/rest/viewmodels"
 	"gomora/internal/errors"
 )
+
+// AdminVerifier verifies the JWT from the admin cookie
+func AdminVerifier(ja *jwtauth.JWTAuth) func(http.Handler) http.Handler {
+	return jwtauth.Verify(ja, jwtauth.TokenFromHeader, func(r *http.Request) string {
+		cookie, err := r.Cookie(string(types.AdminCookieName))
+		if err != nil {
+			return ""
+		}
+
+		return cookie.Value
+	})
+}
 
 // JWTAuthMiddleware handles JWT authentication custom errors
 func JWTAuthMiddleware(next http.Handler) http.Handler {
@@ -56,7 +69,6 @@ func JWTAuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		// if token is valid, proceeds to the next handler
 		next.ServeHTTP(w, r)
 	})
 }
