@@ -24,7 +24,7 @@ import (
 
 	"gomora/interfaces"
 	"gomora/interfaces/http/rest/middlewares/cors"
-	jwt "gomora/interfaces/http/rest/middlewares/iam"
+	jwt "gomora/interfaces/http/rest/middlewares/jwt"
 	"gomora/interfaces/http/rest/viewmodels"
 )
 

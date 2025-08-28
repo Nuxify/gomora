@@ -9,7 +9,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 
-	iamTypes "gomora/interfaces/http/rest/middlewares/iam/types"
+	jwtTypes "gomora/interfaces/http/rest/middlewares/jwt/types"
 	"gomora/interfaces/http/rest/viewmodels"
 	"gomora/internal/errors"
 	apiError "gomora/internal/errors"
@@ -161,7 +161,7 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 
 func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, token string, expiresAt time.Time) {
 	cookie := &http.Cookie{
-		Name:     string(iamTypes.DefaultCookieName), // required by jwtauth.Verifier
+		Name:     string(jwtTypes.DefaultCookieName), // required by jwtauth.Verifier
 		Value:    token,
 		Path:     "/",
 		Expires:  expiresAt,
@@ -180,7 +180,7 @@ func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, t
 
 func (controller *RecordCommandController) clearJWTCookie(w http.ResponseWriter) {
 	cookie := &http.Cookie{
-		Name:     string(iamTypes.DefaultCookieName),
+		Name:     string(jwtTypes.DefaultCookieName),
 		Value:    "",
 		Path:     "/",
 		Expires:  time.Unix(0, 0),
