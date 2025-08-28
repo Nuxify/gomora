@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-chi/jwtauth/v5"
 
-	"gomora/interfaces/http/rest/middlewares/iam/types"
+	"gomora/interfaces/http/rest/middlewares/jwt/types"
 	"gomora/interfaces/http/rest/viewmodels"
 	"gomora/internal/errors"
 )
