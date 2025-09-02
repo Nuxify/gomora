@@ -159,7 +159,7 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 	response.JSON(w)
 }
 
-func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, cookieName string, token string, expiresAt time.Time) {
+func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, cookieName, token string, expiresAt time.Time) {
 	cookie := &http.Cookie{
 		Name:     cookieName, // required by jwtauth.Verifier
 		Value:    token,
