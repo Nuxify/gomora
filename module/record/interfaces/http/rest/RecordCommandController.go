@@ -145,7 +145,7 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 	}
 
 	// set httponly cookie
-	controller.setJWTCookie(w, res.AccessToken, res.ExpiresAt)
+	controller.setJWTCookie(w, string(jwtTypes.DefaultCookieName), res.AccessToken, res.ExpiresAt)
 
 	response := viewmodels.HTTPResponseVM{
 		Status:  http.StatusOK,
@@ -159,9 +159,9 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 	response.JSON(w)
 }
 
-func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, token string, expiresAt time.Time) {
+func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, cookieName, token string, expiresAt time.Time) {
 	cookie := &http.Cookie{
-		Name:     string(jwtTypes.DefaultCookieName), // required by jwtauth.Verifier
+		Name:     cookieName, // required by jwtauth.Verifier
 		Value:    token,
 		Path:     "/",
 		Expires:  expiresAt,
@@ -178,9 +178,9 @@ func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, t
 	http.SetCookie(w, cookie)
 }
 
-func (controller *RecordCommandController) clearJWTCookie(w http.ResponseWriter) {
+func (controller *RecordCommandController) clearJWTCookie(w http.ResponseWriter, cookieName string) {
 	cookie := &http.Cookie{
-		Name:     string(jwtTypes.DefaultCookieName),
+		Name:     cookieName,
 		Value:    "",
 		Path:     "/",
 		Expires:  time.Unix(0, 0),
