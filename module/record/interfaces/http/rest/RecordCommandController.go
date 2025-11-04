@@ -94,7 +94,7 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 			Status:    httpCode,
 			Success:   false,
 			Message:   errorMsg,
-			ErrorCode: err.Error(),
+			ErrorCode: errorCode,
 		}
 
 		response.JSON(w)
@@ -137,7 +137,7 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 			Status:    httpCode,
 			Success:   false,
 			Message:   errorMsg,
-			ErrorCode: err.Error(),
+			ErrorCode: errorCode,
 		}
 
 		response.JSON(w)

@@ -56,7 +56,7 @@ func (controller *RecordQueryController) GetRecordByID(w http.ResponseWriter, r 
 			Status:    httpCode,
 			Success:   false,
 			Message:   errorMsg,
-			ErrorCode: err.Error(),
+			ErrorCode: errorCode,
 		}
 
 		response.JSON(w)
