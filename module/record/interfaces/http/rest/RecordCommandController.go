@@ -4,13 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/go-playground/validator/v10"
 
 	jwtTypes "gomora/interfaces/http/rest/middlewares/jwt/types"
 	"gomora/interfaces/http/rest/viewmodels"
+	authUtils "gomora/internal/auth"
 	"gomora/internal/errors"
 	apiError "gomora/internal/errors"
 	"gomora/module/record/application"
@@ -145,7 +145,7 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 	}
 
 	// set httponly cookie
-	controller.setJWTCookie(w, string(jwtTypes.DefaultCookieName), res.AccessToken, res.ExpiresAt)
+	authUtils.SetJWTCookie(w, string(jwtTypes.DefaultCookieName), res.AccessToken, res.ExpiresAt)
 
 	response := viewmodels.HTTPResponseVM{
 		Status:  http.StatusOK,
@@ -157,43 +157,4 @@ func (controller *RecordCommandController) GenerateToken(w http.ResponseWriter, 
 	}
 
 	response.JSON(w)
-}
-
-func (controller *RecordCommandController) setJWTCookie(w http.ResponseWriter, cookieName, token string, expiresAt time.Time) {
-	cookie := &http.Cookie{
-		Name:     cookieName, // required by jwtauth.Verifier
-		Value:    token,
-		Path:     "/",
-		Expires:  expiresAt,
-		Secure:   true,
-		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,
-	}
-
-	// enforce domain for production
-	if os.Getenv("API_ENV") == "production" {
-		cookie.Domain = ".nuxify.tech" // allow access to all subdomains only
-	}
-
-	http.SetCookie(w, cookie)
-}
-
-func (controller *RecordCommandController) clearJWTCookie(w http.ResponseWriter, cookieName string) {
-	cookie := &http.Cookie{
-		Name:     cookieName,
-		Value:    "",
-		Path:     "/",
-		Expires:  time.Unix(0, 0),
-		MaxAge:   -1,
-		Secure:   true,
-		HttpOnly: true,
-		SameSite: http.SameSiteNoneMode,
-	}
-
-	// enforce domain for production
-	if os.Getenv("API_ENV") == "production" {
-		cookie.Domain = ".nuxify.tech" // allow access to all subdomains only
-	}
-
-	http.SetCookie(w, cookie)
 }
