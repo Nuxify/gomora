@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"gomora/internal/errors"
 	"gomora/module/record/application"
@@ -16,6 +16,7 @@ import (
 // RecordQueryController handles the grpc record query requests
 type RecordQueryController struct {
 	application.RecordQueryServiceInterface
+	grpcPB.UnimplementedRecordQueryServiceServer
 }
 
 // GetRecordByID retrieves the record id from the proto
@@ -38,7 +39,7 @@ func (controller *RecordQueryController) GetRecordByID(ctx context.Context, req 
 		return nil, st.Err()
 	}
 
-	createProtoTime, _ := ptypes.TimestampProto(res.CreatedAt)
+	createProtoTime := timestamppb.New(res.CreatedAt)
 
 	return &grpcPB.RecordResponse{
 		Id:        res.ID,
