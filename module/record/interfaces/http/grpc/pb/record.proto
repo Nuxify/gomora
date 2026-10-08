@@ -3,6 +3,8 @@ package record;
 
 import "google/protobuf/timestamp.proto";
 
+option go_package = "module/record/interfaces/http/grpc/pb;record";
+
 message CreateRecordRequest {
     string id = 1;
     string data = 2;
