@@ -3,6 +3,7 @@ package rest
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 
@@ -25,6 +26,8 @@ type RecordCommandController struct {
 
 // CreateRecord request handler to create record
 func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r *http.Request) {
+	userID := r.Context().Value(jwtTypes.UserIDCtx).(string)
+
 	var request types.CreateRecordRequest
 
 	if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
@@ -38,6 +41,8 @@ func (controller *RecordCommandController) CreateRecord(w http.ResponseWriter, r
 		response.JSON(w)
 		return
 	}
+
+	log.Println("UserID:", userID)
 
 	// validate request
 	err := types.Validate.Struct(request)

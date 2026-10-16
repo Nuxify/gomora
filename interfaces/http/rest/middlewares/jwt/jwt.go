@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/go-chi/jwtauth/v5"
@@ -69,6 +70,9 @@ func JWTAuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		// set context and pass
+		ctx := context.WithValue(r.Context(), types.UserIDCtx, claims["id"].(string))
+
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
