@@ -44,6 +44,7 @@ func (service *RecordCommandService) GenerateToken(ctx context.Context) (types.J
 	// create access token
 	expiresAt := time.Now().Add(time.Minute * 10080) // TODO: currently 7 days
 	accessTokenClaims := jwt.MapClaims{
+		"id":  generateID(),
 		"iss": "gomora",
 		"iat": time.Now().Unix(),
 		"exp": expiresAt.Unix(),
